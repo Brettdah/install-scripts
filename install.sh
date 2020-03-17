@@ -17,30 +17,34 @@ EOF
 install_prerequisite()
 {
   sudopwd=$1
-
+  #debug...
+  echo "In prerequisite install the pwd is -$sudopwd-"
   echo "checking lsb_release existance"
   # is lsb_release installed
   if [ ! -x "$(command -v lsb_release)" ]; then
     echo "lsb-release is not installed"
     if [ -x "$(command -v apt-get)" ]; then
         echo -e "Oh we are on debian Familly\nInstalling lsb-release"
-        echo "$sudopassword\n" | sudo -S -p '' apt-get install -y lsb-release
+        #echo "$sudopwd\n" | sudo -S -p '' apt-get install -y lsb-release
+	sudo_cmd="sudo -S -p ''"
         pkg_manager="apt-get"
         init_pkg="lsb-release"
     elif [ -x "$(command -v yum)" ]; then
         echo "This is Red-Hat Family\nInstalling redhat-lsb"
-        echo "$sudopassword\n" | sudo -S -p '' yum install -y redhat-lsb
+        #echo "$sudopwd\n" | sudo -S -p '' yum install -y redhat-lsb
+	sudo_cmd="sudo -S"
         pkg_manager="yum"
         init_pkg="redhat-lsb"
     fi
-    echo "installing $init_pkg with $pkg_manager :"
-    echo "$sudopassword\n" | sudo -S -p '' $pkg_manager -y $init_pkg
+    echo "installing $init_pkg with $pkg_manager AND PWD is -$sudopwd-:"
+    echo "$sudopwd" | $sudo_cmd $pkg_manager install -y $init_pkg 2>/dev/null
   else
     echo "lsb_realease found ! :)"
   fi
   if [ ! -x "$(command -v lsb_release)" ]
   then
       echo "pb lsb_release not found"
+      echo -e "please execute :\nsudo $pkg_manager -y $init_pkg"
       exit 202
   fi
 }
@@ -56,24 +60,32 @@ install_dependencies()
   then
       pkgs_dep="build-essential libffi-dev libssl-dev python3 python3-dev python3-pip git"
       pip_pkgs="ansible jmespath"
+      pkg_manager="apt-get"
   elif [ "$distId" = 'Red-Hat' -o "$distId" = 'CentOS'  ]
   then
       rh_build_essential="autoconf automake binutils autoconf automake binutils redhat-rpm-config rpm-build rpm-sign ctags elfutils indent patchutils"
       pkgs_dep="yum-utils openssl-devel libffi-devel python3 python3-devel python3-pip git $rh_build_essential"
       pip_pkgs="ansible jmespath"
+      pkg_manager="yum"
   fi
   if [ ! -x "$(command -v pip3)" ]
   then
         echo "installing Python and build dependencies with $pkg_manager"
-        echo "$sudopassword\n" | sudo -S -p '' $pkg_manager install -y -q $pkgs_dep
+        echo "$sudopwd\n" | sudo -S $pkg_manager install -y -q $pkgs_dep 2>/dev/null
+	if [ $? -eq 1]
+	then
+	    echo -e "do it yourself !\nsudo $pkg_manager install -y -q $pkgs_dep"
+	fi
   fi
   if [ ! -x "$(command -v ansible)" ]
   then
         echo "installing $pip_pkgs through pip"
-        echo "$sudopassword\n" | sudo -S -p '' pip3 install -q -U $pip_pkgs
+        echo "$sudopwd\n" | sudo -S pip3 install -q -U $pip_pkgs 2>/dev/null
+	if [ $? -eq 1 ]
+        then
+            echo -e "do it yourself !\nsudo $pkg_manager install -y -q $pip_pkgs"
+        fi
   fi
-
-
 }
 
 execute_ansible()
@@ -81,8 +93,11 @@ execute_ansible()
   sudopwd=$1
   user=`whoami`
   
-  echo "installing ansible galaxy roles"
-  ansible-galaxy install -r roles.yml -p roles
+  if [ -s roles.yml ]
+  then
+	  echo "installing ansible galaxy roles"
+	  ansible-galaxy install -r roles.yml -p roles
+  fi
   #to add remote user 
   #playbook_options="-u $user $@"
   # else
@@ -93,7 +108,7 @@ execute_ansible()
 
   echo "running ansible playbook ..."
   echo "command : ansible-playbook main.yml --ask-become-pass --extra-vars \"account_default_user=$user\" $playbook_options"
-  ansible-playbook main.yml --extra-vars "ansible_become_pass=$sudopassword account_default_user=$user" $playbook_options
+  ansible-playbook main.yml --extra-vars "ansible_become_pass=$sudopwd account_default_user=$user" $playbook_options
 }
 
 execute_all()
@@ -114,10 +129,14 @@ then
 fi
 
 echo -n  "type your SUDO Password: "
+# Hidding the echo from tty
 stty -echo
 read sudopassword
 stty echo
+# Write a new line
 echo
+# debug...
+echo "the pwd is : -$sudopassword-"
 
 
 case $1 in
