@@ -1,5 +1,5 @@
 ---
-account_default_user: jc
+account_default_user: jc.bergot
 account_default_user_fullname: JC BERGOT
 account_default_user_email: 18658617+Brettdah@users.noreply.github.com
 
@@ -173,6 +173,166 @@ apt_extra_packages:
   - unace
   - vim-doc
 
+yum_repo_lists_default:
+    #CentOS
+    -
+        distrib: "CenOS"
+        repositories:
+        - 
+            name: "BaseOS"
+            file: "CentOS-Base.repo"
+            desc: "CentOS-$releasever - Base"
+            checkgpg: "yes"
+            gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial"
+            enabled: "yes"
+            mirrorlist: "http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=BaseOS&infra=$infra"
+        -
+            name: "AppStream"
+            file: "CentOS-AppStream.repo"
+            desc: "CentOS-$releasever - AppStream"
+            checkgpg: "yes"
+            gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial"
+            enabled: "yes"
+            mirrorlist: "http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=AppStream&infra=$infra"
+        -
+            name: "centosplus"
+            file: "CentOS-centosplus.repo"
+            desc: "CentOS-$releasever - plus"
+            checkgpg: "yeHighAvailabilitys"
+            gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial"
+            enabled: "no"
+            mirrorlist: "http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=centosplus&infra=$infra"
+        -
+            name: "cr"
+            file: "CentOS-CR.repo"
+            desc: "CentOS-$releasever - cr"
+            checkgpg: "yes"
+            gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial"
+            enabled: "no"
+            mirrorlist: "http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=cr&infra=$infra"
+        -
+            name: "base-debuginfo"
+            file: "CentOS-Debuginfo.repo"
+            desc: "CentOS-$releasever - Debuginfo"
+            checkgpg: "yes"
+            gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial"
+            enabled: "no"
+            baseurl: 
+              - "http://debuginfo.centos.org/$releasever/$basearch/"
+        -
+            name: "extras"
+            file: "CentOS-Extras.repo"
+            desc: "CentOS-$releasever - Extras"
+            checkgpg: "yes"
+            gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial"
+            enabled: "yes"
+            mirrorlist: "http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=extras&infra=$infra"
+        -
+            name: "fasttrack"
+            file: "CentOS-fasttrack.repo"
+            desc: "CentOS-$releasever - fasttrack"
+            checkgpg: "yes"
+            gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial"
+            enabled: "no"
+            mirrorlist: "http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=fasttrack&infra=$infra"
+        -
+            name: "HighAvailability"
+            file: "CentOS-HA.repo"
+            desc: "CentOS-$releasever - HA"
+            checkgpg: "yes"
+            gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial"
+            enabled: "no"
+            mirrorlist: "http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=HighAvailability&infra=$infra"
+        -
+            name: "c8-media-BaseOS"
+            file: "CentOS-Media.repo"
+            desc: "CentOS-$releasever - Media"
+            checkgpg: "yes"
+            gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial"
+            enabled: "no"
+            baseurl:
+              - "file:///media/CentOS/BaseOS"
+              - "file:///media/cdrom/BaseOS"
+              - "file:///media/cdrecorder/BaseOS"
+        -
+            name: "c8-media-AppStream"
+            file: "CentOS-Media.repo"
+            desc: "CentOS-$releasever - Media"
+            checkgpg: "yes"
+            gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial"
+            enabled: "yes"
+            baseurl:
+              - "file:///media/CentOS/AppStream"
+              - "file:///media/cdrom/AppStream"
+              - "file:///media/cdrecorder/AppStream"
+        -
+            name: "PowerTools"
+            file: "CentOS-PowerTools.repo"
+            desc: "CentOS-$releasever - PowerTools"
+            checkgpg: "yes"
+            gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial"
+            enabled: "no"
+            mirrorlist: "http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=PowerTools&infra=$infra"
+        -
+            name: "BaseOS-source"
+            file: "CentOS-Sources.repo"
+            desc: "CentOS-$releasever - BaseOS Sources"
+            checkgpg: "yes"
+            gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial"
+            enabled: "no"
+            baseurl:
+              - "http://vault.centos.org/$contentdir/$releasever/BaseOS/Source/"
+        -
+            name: "AppStream-source"
+            file: "CentOS-Sources.repo"
+            desc: "CentOS-$releasever - AppStream Sources"
+            checkgpg: "yes"
+            gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial"
+            enabled: "no"
+            baseurl:
+              - "http://vault.centos.org/$contentdir/$releasever/AppStream/Source/"
+        -
+            name: "extras-source"
+            file: "CentOS-Sources.repo"
+            desc: "CentOS-$releasever - Extras Sources"
+            checkgpg: "yes"
+            gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial"
+            enabled: "no"
+            baseurl:
+              - "http://vault.centos.org/$contentdir/$releasever/extras/Source/"
+        -
+            name: "centosplus-source"
+            file: "CentOS-Sources.repo"
+            desc: "CentOS-$releasever - Plus Sources"
+            checkgpg: "yes"
+            gpgkeypath: "file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial"
+            enabled: "no"
+            baseurl:
+              - "http://vault.centos.org/$contentdir/$releasever/centosplus/Source/"
+
+yum_extra_packages:
+  - dos2unix
+  - jq
+  #- ack-grep # not in centos (may be EPEL)
+  #- fonts-inconsolata
+  #- git-doc
+  #- git-extras
+  #- git-flow
+  #- manpages-fr
+  #- manpages-fr-dev
+  #- manpages-fr-extra
+  #- openssh-blacklist
+  #- openssh-blacklist-extra
+  #- openssl-blacklist
+  #- openssl-blacklist-extra
+  #- samba
+  #- sipcalc
+  #- trash-cli # see in pip packages
+  #- unace
+  #- vim-doc
+
+
+
 python_pip2_packages:
   - { name: 'jinja2-cli[yaml]'}
 
@@ -259,6 +419,7 @@ zsh_users:
 #aws_cli_bash_autocompletion: true
 #aws_cli_zsh_autocompletion: true
 
+
 account_users:
   "{{ account_default_user }}":
     name: "{{ account_default_user }}"
@@ -272,7 +433,7 @@ account_users:
     # group: # primary group
     group: "{{ account_default_user }}"
     groups:
-      - sudo
+      - "{% if ansible_os_family|lower == 'debian' %}sudo{% elif ansible_os_family|lower == 'redhat' %}wheel{% endif %}"
     # append_groups: # default yes
     shell: /usr/bin/zsh
     # uid:
