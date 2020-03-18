@@ -22,7 +22,7 @@
 	url = https://github.com/csanquer/ansible-role-nfs.git
 [submodule "roles/packages"]
 	path = roles/packages
-	url = https://github.com/csanquer/ansible-role-packages.git
+	url = https://github.com/Brettdah/ansible-role-packages.git
 [submodule "roles/packer"]
 	path = roles/packer
 	url = https://github.com/csanquer/ansible-role-packer.git
